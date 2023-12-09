@@ -15,7 +15,6 @@ wss.on('connection', async function connection(ws, req) {
   const queryParams = new URLSearchParams(req.url);
   
   const [category, addressToWatch, userAddress] = [queryParams.get('category'), queryParams.get('/?addressToWatch'), queryParams.get('userAddress')];
-  console.log(category === 'null' && addressToWatch !== null)
   const web3Socket = new Web3(
     new Web3.providers.WebsocketProvider(config.chains['1'].socketRpc ,{
       clientConfig: {
@@ -37,7 +36,6 @@ wss.on('connection', async function connection(ws, req) {
         return;
       }
 
-      console.log(blockHeader.number);
       block.transactions.forEach((txn) => {
 
         if(category === 'null' && addressToWatch !== null){
@@ -49,7 +47,7 @@ wss.on('connection', async function connection(ws, req) {
             txnMap[txn.hash] = (txn);
           }
         }
-        else if (addressToWatch !== null) {
+        else if (addressToWatch !== 'null') {
           if ((txn.to).toLowerCase() === (config.defiId[category].routerAddress).toLowerCase() && (txn.from).toLowerCase() === addressToWatch.toLowerCase()) {
             delete txn.input;
             delete txn.s;
