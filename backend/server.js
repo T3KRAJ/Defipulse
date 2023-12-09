@@ -28,7 +28,7 @@ wss.on('connection', async function connection(ws, req) {
   subscription.on('data', async (blockHeader) => {
     try {
       const threads = [];
-      const txnMap = {};
+      const txnMap = [];
       const block = await web3Socket.eth.getBlock(blockHeader.number, true);
       delete block.logsBloom;
       if (!block || !block.transactions || !block.transactions.length) {
@@ -75,7 +75,7 @@ wss.on('connection', async function connection(ws, req) {
           },
         });
       }
-
+      ws.send(JSON.stringify(txnMap , null , 2))
     } catch (err) {
       
     }
