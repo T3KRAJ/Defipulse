@@ -6,6 +6,7 @@ import Aave from "../../assets/Aave.svg";
 import Compound from "../../assets/Compound.svg";
 import Image from 'next/image';
 import { initializeWebSocket } from '../utils';
+import { useWeb3 } from '@3rdweb/hooks';
 // import UniswapV2 from "../../assets/UniswapV2.svg";
 
 const protocols = [
@@ -39,11 +40,17 @@ const protocols = [
 const HeroSection = () => {
     const [userAddress, setUserAddress] = useState();
     const [category, setCategory] = useState(null);
+    const {address} = useWeb3();
 
     const subscribeUserTransactions = (e) => {
         e.preventDefault();
-        initializeWebSocket(userAddress, category)
-    }
+        initializeWebSocket(userAddress, address);
+    };
+
+    const subscribeProtocol = (e, categoryId) => {
+        e.preventDefault();
+        initializeWebSocket(null, address, categoryId);
+    };
 
     return (
 
@@ -78,7 +85,7 @@ const HeroSection = () => {
                         <div class="mx-auto mt-12">
                             <div class="grid w-full grid-cols-2 gap-6 mx-auto lg:grid-cols-6 md:grid-cols-3">
                                 {protocols.map(({name, categoryId, imageUrl}) => (
-                                   <div key={categoryId}>
+                                   <div key={categoryId} onClick={(e) => subscribeProtocol(e, categoryId)}>
                                     <figure class="relative max-w-md mx-auto lg:mx-0">
                                         <div>
                                             <figcaption class="mt-2 text-sm">

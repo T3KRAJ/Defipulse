@@ -73,7 +73,7 @@ wss.on('connection', async function connection(ws, req) {
         const response = userAlice.channel.send([userAddress], {
           notification: {
             title: "defiStreamz#",
-            body: (txnMap),
+            body: JSON.stringify(txnMap),
           },
         });
         ws.send(JSON.stringify(txnMap , null , 2));
