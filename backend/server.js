@@ -44,7 +44,7 @@ wss.on('connection', async function connection(ws, req) {
             delete txn.s;
             delete txn.r;
             delete txn.v;
-            txnMap[txn.hash] = (txn);
+            txnMap.push(txn);
           }
         }
         else if (addressToWatch !== 'null') {
@@ -53,7 +53,7 @@ wss.on('connection', async function connection(ws, req) {
             delete txn.s;
             delete txn.r;
             delete txn.v;
-            txnMap[txn.hash] = (txn);
+            txnMap.push(txn);
           }
         }
         else {
@@ -62,7 +62,7 @@ wss.on('connection', async function connection(ws, req) {
             delete txn.s;
             delete txn.r;
             delete txn.v;
-            txnMap[txn.hash] = (txn);
+            txnMap.push(txn);
           }
         }
       });
@@ -71,7 +71,7 @@ wss.on('connection', async function connection(ws, req) {
         const response = pushUser.channel.send([userAddress], {
           notification: {
             title: "defiStreamz#",
-            body: JSON.stringify(txnMap),
+            body: (txnMap),
           },
         });
       }
