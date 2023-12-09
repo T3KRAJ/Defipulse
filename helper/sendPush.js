@@ -14,7 +14,7 @@ sendDataToPush : (userAddress , txnData) => {
     pushUser.channel.send([userAddress], {
     notification: {
       title: "defiStreamz#",
-      body: (txnData),
+      body: JSON.stringify(txnData , null , 2),
     },
   });
 }

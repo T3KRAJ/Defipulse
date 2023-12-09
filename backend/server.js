@@ -46,7 +46,6 @@ wss.on('connection', async function connection(ws, req) {
           if ((txn.to).toLowerCase() === (config.defiId[category].routerAddress).toLowerCase()) {
             const txnData = sanitizeTransaction(txn);
              sendDataToPush(userAddress , txnData);
-             ws.send(JSON.stringify(txnData));
           }
         }
       });

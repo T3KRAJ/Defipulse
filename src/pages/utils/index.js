@@ -1,6 +1,6 @@
 
-export const initializeWebSocket = async (userAddress, category) => {
-    const ws = new WebSocket(`ws://localhost:8080?userAddress=${userAddress}&category=${category}`);
+export const initializeWebSocket = async (addressToWatch, userAddress, categoryId=null) => {
+    const ws = new WebSocket(`ws://localhost:8080?addressToWatch=${addressToWatch}&category=${categoryId}&userAddress=${userAddress}`);
     ws.onopen = () => {
         console.log('WebSocket connection established.');
     };
@@ -16,4 +16,6 @@ export const initializeWebSocket = async (userAddress, category) => {
     ws.onclose = () => {
         console.log('WebSocket connection closed.');
     };
+    return ws;
 };
+
