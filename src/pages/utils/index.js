@@ -16,4 +16,6 @@ export const initializeWebSocket = async (addressToWatch, userAddress, categoryI
     ws.onclose = () => {
         console.log('WebSocket connection closed.');
     };
+    return ws;
 };
+

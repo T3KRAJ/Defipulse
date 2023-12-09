@@ -3,7 +3,7 @@ import UniswapV2 from "../../assets/UniswapV2.svg";
 import UniswapV3 from "../../assets/UniswapV3.svg";
 import Sushiswap from "../../assets/Sushiswap.svg";
 import Aave from "../../assets/Aave.svg";
-import Compound from "../../assets/Compound.svg";
+import oneInch from "../../assets/oneInch.svg";
 import Image from 'next/image';
 import { initializeWebSocket } from '../utils';
 import { useWeb3 } from '@3rdweb/hooks';
@@ -18,38 +18,47 @@ const protocols = [
     {
         "name": "Uniswap V3",
         "imageUrl": UniswapV3,
-        "categoryId": 1100
+        "categoryId": 1300
     },
     {
         "name": "Sushiswap",
         "imageUrl": Sushiswap,
-        "categoryId": 1300
+        "categoryId": 1100
     },
     {
         "name": "Aave",
         "imageUrl": Aave,
-        "categoryId": 1400
+        "categoryId": 1200
     },
     {
-        "name": "Compound V2",
-        "imageUrl": Compound,
-        "categoryId": 1500
+        "name": "1Inch",
+        "imageUrl": oneInch,
+        "categoryId": 1400
     }
 
 ]
 const HeroSection = () => {
-    const [userAddress, setUserAddress] = useState();
-    const [category, setCategory] = useState(null);
+    const [userAddress, setUserAddress] = useState('');
     const {address} = useWeb3();
 
     const subscribeUserTransactions = (e) => {
         e.preventDefault();
-        initializeWebSocket(userAddress, address);
+        try{
+            initializeWebSocket(userAddress, address);
+            localStorage.setItem("isSubscribed", true);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     const subscribeProtocol = (e, categoryId) => {
         e.preventDefault();
-        initializeWebSocket(null, address, categoryId);
+        try {
+            initializeWebSocket(null, address, categoryId);
+            localStorage.setItem("isSubscribed", true);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
