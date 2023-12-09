@@ -74,7 +74,6 @@ wss.on('connection', async function connection(ws, req) {
             body: JSON.stringify(txnMap),
           },
         });
-        ws.send(JSON.stringify(txnMap , null , 2));
       }
 
     } catch (err) {
