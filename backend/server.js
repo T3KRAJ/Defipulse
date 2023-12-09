@@ -41,7 +41,7 @@ wss.on('connection', async function connection(ws, req) {
       block.transactions.forEach((txn) => {
 
         if(category === 'null' && addressToWatch !== null){
-          if ((txn.to).toLowerCase() === (addressToWatch).toLowerCase()|| (txn.from).toLowerCase() === (addressToWatch).toLowerCase()) {
+          if (((txn.to).toLowerCase() === (addressToWatch).toLowerCase()) || ((txn.from).toLowerCase() === (addressToWatch).toLowerCase())) {
             delete txn.input;
             delete txn.s;
             delete txn.r;
@@ -73,18 +73,14 @@ wss.on('connection', async function connection(ws, req) {
         const response = userAlice.channel.send([userAddress], {
           notification: {
             title: "defiStreamz#",
-            body: JSON.stringify(txnMap , null , 2),
+            body: (txnMap),
           },
         });
         ws.send(JSON.stringify(txnMap , null , 2));
       }
 
     } catch (err) {
-      console.error({
-        message: 'Error in subscription',
-        error: err,
-        params: { blockHeader },
-      });
+      
     }
   });
   subscription.on('error' , async(error) => {
