@@ -40,10 +40,13 @@ wss.on('connection', async function connection(ws, req) {
 
         if(category === 'null' && addressToWatch !== 'null'){
           if (((txn.to).toLowerCase() === (addressToWatch).toLowerCase()) || ((txn.from).toLowerCase() === (addressToWatch).toLowerCase())) {
+            delete txn.type;
+            delete txn.blockHash;
             delete txn.input;
             delete txn.s;
             delete txn.r;
             delete txn.v;
+            delete txn.transactionIndex;
             txnMap.push(txn);
           }
         }
