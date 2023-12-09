@@ -59,7 +59,7 @@ const WalletConnect = () => {
                                     <Menu.Item>
                                         <div className="p-3">
                                             <div
-                                                className="flex cursor-pointer items-center gap-3 rounded-lg py-2.5 px-3 text-sm font-medium text-gray-900 transition hover:bg-gray-300 bg-gray-200"
+                                                className="flex z-50 cursor-pointer items-center gap-3 rounded-lg py-2.5 px-3 text-sm font-medium text-gray-900 transition hover:bg-gray-300 bg-gray-200"
                                             onClick={() => disconnectWallet()}
                                             >
                                                 <PowerIcon height={20} width={20}/>
