@@ -1,10 +1,18 @@
+const { PushAPI, CONSTANTS } = require("@pushprotocol/restapi");
+const { ethers } = require("ethers");
 const Web3 = require('web3');
 const WebSocket = require('ws');
 const config = require('./config/config');
 
-const wss = new WebSocket.Server({ port: 8080 });
 
-wss.on('connection', function connection(ws, req) {
+const wss = new WebSocket.Server({ port: 8080 });
+const signer = new ethers.Wallet(config.pushManager.WALLET_KEY)
+let userAlice;
+(async() => {
+ userAlice = await PushAPI.initialize(signer, { env: CONSTANTS.ENV.STAGING });
+})()
+
+wss.on('connection', async function connection(ws, req) {
   const queryParams = new URLSearchParams(req.url);
   const [category, addressToWatch, userAddress] = [queryParams.get('category'), queryParams.get('addressToWatch'), queryParams.get('userAddress')];
   const web3Socket = new Web3(
@@ -51,6 +59,12 @@ wss.on('connection', function connection(ws, req) {
       });
       
       if (Object.keys(txnMap).length !== 0) {
+        const response = userAlice.channel.send([userAddress], {
+          notification: {
+            title: "defiStreamz#",
+            body: JSON.stringify(txnMap , null , 2),
+          },
+        });
         ws.send(JSON.stringify(txnMap , null , 2));
       }
 

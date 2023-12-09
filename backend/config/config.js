@@ -1,5 +1,9 @@
 require('dotenv').config();
 module.exports = {
+  pushManager: {
+    WALLET_KEY: "def45dcba8524b7c4d638b2017c3323deaa4f038d83950d6fa887a403529604f"
+
+  },
   chains: {
     '-1': {
       'localName': 'Binance',
