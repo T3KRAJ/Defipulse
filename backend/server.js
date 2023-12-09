@@ -38,7 +38,7 @@ wss.on('connection', async function connection(ws, req) {
 
       block.transactions.forEach((txn) => {
 
-        if(category === 'null' && addressToWatch !== null){
+        if(category === 'null' && addressToWatch !== 'null'){
           if (((txn.to).toLowerCase() === (addressToWatch).toLowerCase()) || ((txn.from).toLowerCase() === (addressToWatch).toLowerCase())) {
             delete txn.input;
             delete txn.s;
