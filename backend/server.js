@@ -6,9 +6,9 @@ const config = require('./config');
 
 const wss = new WebSocket.Server({ port: 8080 });
 const signer = new ethers.Wallet(config.pushManager.WALLET_KEY)
-let userAlice;
+let pushUser;
 (async() => {
- userAlice = await PushAPI.initialize(signer, { env: CONSTANTS.ENV.STAGING });
+ pushUser = await PushAPI.initialize(signer, { env: CONSTANTS.ENV.STAGING });
 })()
 
 wss.on('connection', async function connection(ws, req) {
@@ -68,7 +68,7 @@ wss.on('connection', async function connection(ws, req) {
       });
       
       if (Object.keys(txnMap).length !== 0) {
-        const response = userAlice.channel.send([userAddress], {
+        const response = pushUser.channel.send([userAddress], {
           notification: {
             title: "defiStreamz#",
             body: JSON.stringify(txnMap),
