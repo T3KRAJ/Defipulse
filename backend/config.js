@@ -30,7 +30,7 @@ module.exports = {
 
 
     '1100': {
-      'localName': 'UniswapV2',
+      'localName': 'SushiswapV2',
       'dexName': 'SushiswapV2',
       'chainName': 'Ethereum',
       'chainId': '1',
