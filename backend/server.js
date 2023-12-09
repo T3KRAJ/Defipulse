@@ -2,8 +2,7 @@ const { PushAPI, CONSTANTS } = require("@pushprotocol/restapi");
 const { ethers } = require("ethers");
 const Web3 = require('web3');
 const WebSocket = require('ws');
-const config = require('./config/config');
-
+const config = require('./config');
 
 const wss = new WebSocket.Server({ port: 8080 });
 const signer = new ethers.Wallet(config.pushManager.WALLET_KEY)
