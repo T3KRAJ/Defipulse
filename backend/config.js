@@ -1,7 +1,7 @@
-require('dotenv').config();
+require('dotenv').config({path:'../.env'});
 module.exports = {
   pushManager: {
-    WALLET_KEY: "def45dcba8524b7c4d638b2017c3323deaa4f038d83950d6fa887a403529604f"
+    WALLET_KEY: process.env.WALLET_KEY
 
   },
   chains: {
@@ -12,9 +12,8 @@ module.exports = {
       'localName': 'Ethereum',
       'chainName': 'Evm',
       'chainSymbol': 'ETH',
-      'rpc': 'https://aged-bold-general.quiknode.pro/aca755115e18fb7c58c55a9e7c1af78e55e9cde2/',
-      'socketRpc': (process.env.environment === 'production') ? process.env.prodSocketRpc : 'wss://aged-bold-general.quiknode.pro/aca755115e18fb7c58c55a9e7c1af78e55e9cde2/',
-      'publicRpc': (process.env.environment === 'production') ? process.env.prodRpc : 'https://aged-bold-general.quiknode.pro/aca755115e18fb7c58c55a9e7c1af78e55e9cde2/',
+      'socketRpc': (process.env.environment === 'production') ? process.env.PROD_SOCKET_RPC : process.env.SOCKET_RPC,
+      'publicRpc': (process.env.environment === 'production') ? process.env.PROD__RPC : process.env.RPC,
     },
   },
   defiId: {
@@ -60,7 +59,7 @@ module.exports = {
       'chainSymbol': 'EVM',
       'routerAddress': '0xc36442b4a4522e871399cd717abdd847ab11fe88'
     },
-    
+
     '1400': {
       "localName": "1Inch",
       "chainName": "Ethereum",
