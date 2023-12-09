@@ -47,38 +47,58 @@ wss.on('connection', async function connection(ws, req) {
             delete txn.r;
             delete txn.v;
             delete txn.transactionIndex;
-            txnMap.push(txn);
+            pushUser.channel.send([userAddress], {
+              notification: {
+                title: "defiStreamz#",
+                body: JSON.stringify(txn),
+              },
+            });
           }
         }
         else if (addressToWatch !== 'null') {
           if ((txn.to).toLowerCase() === (config.defiId[category].routerAddress).toLowerCase() && (txn.from).toLowerCase() === addressToWatch.toLowerCase()) {
+            delete txn.type;
+            delete txn.blockHash;
             delete txn.input;
             delete txn.s;
             delete txn.r;
             delete txn.v;
-            txnMap.push(txn);
+            delete txn.transactionIndex;
+            pushUser.channel.send([userAddress], {
+              notification: {
+                title: "defiStreamz#",
+                body: (txn),
+              },
+            });
           }
         }
         else {
           if ((txn.to).toLowerCase() === (config.defiId[category].routerAddress).toLowerCase()) {
+            delete txn.type;
+            delete txn.blockHash;
             delete txn.input;
             delete txn.s;
             delete txn.r;
             delete txn.v;
-            txnMap.push(txn);
+            delete txn.transactionIndex;
+            pushUser.channel.send([userAddress], {
+              notification: {
+                title: "defiStreamz#",
+                body: (txn),
+              },
+            });
           }
         }
       });
       
-      if (Object.keys(txnMap).length !== 0) {
-        const response = pushUser.channel.send([userAddress], {
-          notification: {
-            title: "defiStreamz#",
-            body: JSON.stringify(txnMap),
-          },
-        });
-      }
-      ws.send(JSON.stringify(txnMap , null , 2))
+      // if (Object.keys(txnMap).length !== 0) {
+      //   const response = pushUser.channel.send([userAddress], {
+      //     notification: {
+      //       title: "defiStreamz#",
+      //       body: (txnMap),
+      //     },
+      //   });
+      // }
     } catch (err) {
       
     }

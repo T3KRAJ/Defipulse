@@ -27,7 +27,7 @@ const schema = {
 const NotificationDrawer = () => {
   const [open, setOpen] = useState(false);
   const { address, provider } = useWeb3();
-  const [notifications, setNotifications] = useState([{}]);
+  const [notifications, setNotifications] = useState([]);
 
   const showDrawer = () => {
     setOpen(true);
@@ -49,7 +49,8 @@ const NotificationDrawer = () => {
     const stream = await user.initStream([CONSTANTS.STREAM.NOTIF]);
 
     stream.on(CONSTANTS.STREAM.NOTIF, (data) => {
-      setNotifications((prevNotifications) => [...prevNotifications, data.message.payload.body]); 
+      setNotifications((prevNotifications) => [...prevNotifications, (data.message.payload.body)]); 
+      // setNotifications(JSON.stringify(data));
     });
 
     stream.connect();
@@ -63,14 +64,14 @@ const NotificationDrawer = () => {
         <span className="sr-only">View notifications</span>
         <BellIcon className="h-6 w-6" aria-hidden="true" />
       </Button>
-      <Drawer title="Notifications" placement="right" onClose={onClose} open={open}>
+      <Drawer title="Events" placement="right" width={800} onClose={onClose} open={open}>
 
-        {/* {notifications && notifications.map(({ notification }, index) => (
-          <div className='border p-3 rounded-md shadow-sm mb-2' key={index}>
-            <h2 className='text-md font-semibold'>{"Title"}</h2>
+        {notifications && notifications.map(( notification , index) => (
+          <div className='border p-3 rounded-md text-gray-700 shadow-sm mb-2' key={index}>
+            <h2 className='text-md font-semibold'>{notification}</h2>
             <h2 className='text-xs'>{'notification'}</h2>
           </div>
-        ))} */}
+        ))}
       </Drawer>
     </>
   );
