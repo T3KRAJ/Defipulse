@@ -59,6 +59,13 @@ module.exports = {
       "lendingPoolAddressProvider": "0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5",
       "dataPoolProvider": "0x00e50FAB64eBB37b87df06Aa46b8B35d5f1A4e1A",
       "dataProvider": "0x057835Ad21a177dbdd3090bB1CAE03EaCF78Fc6d"
+    },
+    '1500': {
+      "localName": "1Inch",
+      "chainName": "Ethereum",
+      "chainId": "1",
+      "chainSymbol": "EVM",
+      "routerAddress": "0x1111111254EEB25477B68fb85Ed929f73A960582"
     }
   }
 }

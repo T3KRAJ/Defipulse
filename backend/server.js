@@ -6,16 +6,15 @@ const config = require('./config');
 
 const wss = new WebSocket.Server({ port: 8080 });
 const signer = new ethers.Wallet(config.pushManager.WALLET_KEY)
-let userAlice;
+let pushUser;
 (async() => {
- userAlice = await PushAPI.initialize(signer, { env: CONSTANTS.ENV.STAGING });
+ pushUser = await PushAPI.initialize(signer, { env: CONSTANTS.ENV.STAGING });
 })()
 
 wss.on('connection', async function connection(ws, req) {
   const queryParams = new URLSearchParams(req.url);
   
   const [category, addressToWatch, userAddress] = [queryParams.get('category'), queryParams.get('/?addressToWatch'), queryParams.get('userAddress')];
-  console.log(category === 'null' && addressToWatch !== null)
   const web3Socket = new Web3(
     new Web3.providers.WebsocketProvider(config.chains['1'].socketRpc ,{
       clientConfig: {
@@ -37,25 +36,24 @@ wss.on('connection', async function connection(ws, req) {
         return;
       }
 
-      console.log(blockHeader.number);
       block.transactions.forEach((txn) => {
 
-        if(category === 'null' && addressToWatch !== null){
+        if(category === 'null' && addressToWatch !== 'null'){
           if (((txn.to).toLowerCase() === (addressToWatch).toLowerCase()) || ((txn.from).toLowerCase() === (addressToWatch).toLowerCase())) {
             delete txn.input;
             delete txn.s;
             delete txn.r;
             delete txn.v;
-            txnMap[txn.hash] = (txn);
+            txnMap.push(txn);
           }
         }
-        else if (addressToWatch !== null) {
+        else if (addressToWatch !== 'null') {
           if ((txn.to).toLowerCase() === (config.defiId[category].routerAddress).toLowerCase() && (txn.from).toLowerCase() === addressToWatch.toLowerCase()) {
             delete txn.input;
             delete txn.s;
             delete txn.r;
             delete txn.v;
-            txnMap[txn.hash] = (txn);
+            txnMap.push(txn);
           }
         }
         else {
@@ -64,19 +62,18 @@ wss.on('connection', async function connection(ws, req) {
             delete txn.s;
             delete txn.r;
             delete txn.v;
-            txnMap[txn.hash] = (txn);
+            txnMap.push(txn);
           }
         }
       });
       
       if (Object.keys(txnMap).length !== 0) {
-        const response = userAlice.channel.send([userAddress], {
+        const response = pushUser.channel.send([userAddress], {
           notification: {
             title: "defiStreamz#",
             body: JSON.stringify(txnMap),
           },
         });
-        ws.send(JSON.stringify(txnMap , null , 2));
       }
 
     } catch (err) {
